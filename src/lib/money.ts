@@ -14,3 +14,14 @@ export function dec(value: string | number | BigNumber): BigNumber {
 }
 
 export const ZERO = dec(0);
+
+/** DECIMAL(36,18) stores 18 fractional digits and 18 integer digits, so values must be < 10^18. */
+export const MONEY_CEILING = dec(10).pow(18);
+
+export function moneyString(value: string | number | BigNumber): string {
+  return dec(value).toFixed(18);
+}
+
+export function fitsMoneyColumn(value: BigNumber): boolean {
+  return value.isFinite() && !value.isNegative() && value.isLessThan(MONEY_CEILING);
+}

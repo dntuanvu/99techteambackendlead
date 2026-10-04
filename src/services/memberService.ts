@@ -6,7 +6,10 @@ import { Member, Wallet } from '../db/models';
 export async function createMember(username: string): Promise<{ member: Member; wallet: Wallet }> {
   return sequelize.transaction(async (t) => {
     const member = await Member.create({ username }, { transaction: t });
-    const wallet = await Wallet.create({ memberId: member.id, balance: '0' }, { transaction: t });
+    const wallet = await Wallet.create(
+      { memberId: member.id, balance: '0', turnoverRequired: '0', turnoverAccrued: '0' },
+      { transaction: t },
+    );
     return { member, wallet };
   });
 }
