@@ -1,21 +1,7 @@
 import request from 'supertest';
 import { createApp } from '../src/app';
-import { sequelize } from '../src/db/sequelize';
-import '../src/db/models';
 
 const app = createApp();
-
-beforeAll(async () => {
-  await sequelize.authenticate();
-});
-
-beforeEach(async () => {
-  await sequelize.truncate({ cascade: true });
-});
-
-afterAll(async () => {
-  await sequelize.close();
-});
 
 describe('POST /members', () => {
   it('creates a member with a zero-balance wallet', async () => {
